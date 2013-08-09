@@ -26,10 +26,10 @@ def deploy(tag=None):
 
 
 def restart():
-    run('service nginx stop')
-    run('service nginx start')
-    run('service uwsgi stop')
-    run('service uwsgi start')
+    run('service nginx restart')
+    # django_graceful
+    run('python sancta/manage.py update --settings=config.admin')
+    run('python sancta/manage.py update --settings=config.api')
+    #celery
     run('service celeryd stop')
     run('service celeryd start')
-    run("ps aux | grep 'celery'")
