@@ -27,9 +27,8 @@ def deploy(tag=None):
 
 def restart():
     run('service nginx restart')
-    # django_graceful
-    run('python sancta/manage.py update --settings=config.admin')
-    run('python sancta/manage.py update --settings=config.api')
+    # gunicorn
+    run('service supervisor restart')
     #celery
     run('service celeryd stop')
     run('service celeryd start')
