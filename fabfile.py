@@ -39,10 +39,10 @@ def deploy_engdel(tag=None):
             run("git submodule update --init")
             run("pip install -r control/pip.freeze")
             run("find . -name '*.pyc' -delete")
-            run("python sancta/manage.py syncdb")
-            run("python sancta/manage.py migrate --merge")
-            run("python sancta/manage.py compass")
-            run("python sancta/manage.py collectstatic --noinput")
+            run("python frgn/manage.py syncdb")
+            run("python frgn/manage.py migrate --merge")
+            run("python frgn/manage.py compass")
+            run("python frgn/manage.py collectstatic --noinput")
             restart()
 
 
