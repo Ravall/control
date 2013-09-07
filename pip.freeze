@@ -7,7 +7,7 @@ djangorestframework==2.3.6
 trans==1.5.1
 django-debug-toolbar
 celery==3.0.23
-kombu==2.4.8
+kombu==2.5.14
 django-celery==3.0.23
 South==0.8.2
 pep8==1.4.6
