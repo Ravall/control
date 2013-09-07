@@ -9,13 +9,14 @@ django-debug-toolbar
 celery==3.0.12
 kombu==2.4.8
 django-celery==3.0.11
-South==0.7.6
+South==0.8.2
 pep8==1.4.6
-pylint==0.28.0
+pylint==1.0.0
 Fabric==1.5.1
 django-admin-tools==0.5.1
 mock==1.0.1
-django-taggit==0.9.3
+django-taggit==0.10
+django-taggit-autocomplete-modified==0.1.0b4
 PyYAML==3.10
 smart-date==2.0.3
 django-template-bootstrap==0.2.14
@@ -31,3 +32,7 @@ gunicorn==17.5
 django-annoying==0.7.7
 # css
 django-compass2==0.2
+django-grappelli==2.4.6
+django-ordered-model==0.2.0
+raven==3.4.1
+sentry==6.2.1
