@@ -36,3 +36,5 @@ django-grappelli==2.4.6
 django-ordered-model==0.2.0
 raven==3.4.1
 sentry==6.2.1
+django-favicon==0.1.1
+django-robots-txt==0.3
