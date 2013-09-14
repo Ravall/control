@@ -20,6 +20,7 @@ LANGUAGES = (
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+SITE_ID = 1
 
 MEDIA_URL = '/media/'
 
@@ -40,6 +41,7 @@ STATICFILES_DIRS = (MEDIA_ROOT,)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -50,6 +52,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages'
 )
 
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+#     'django.template.loaders.eggs.Loader',
+)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
