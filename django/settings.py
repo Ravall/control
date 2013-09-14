@@ -5,7 +5,7 @@ import os
 import platform
 
 # PATH - путь к manage.py
-PATH = os.path.abspath(os.path.dirname(__file__) + '/../')
+PATH = os.path.abspath(os.path.dirname(__file__) + '/../../')
 
 DEBUG = platform.node() != 'sancta'
 TEMPLATE_DEBUG = DEBUG
