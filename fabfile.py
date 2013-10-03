@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from fabric.api import *
 from time import sleep
+from fabric.contrib.files import exists
 
 env.activate = 'source /home/envs/admin_sancta/bin/activate'
 env.roledefs = {
@@ -19,6 +20,8 @@ def puppet_init():
     Установка puppet
     '''
     run("apt-get -y install puppet puppetmaster")
+    run("apt-get -y install git")
+    run('rm -rf /home/control')
     if not exists('/home/control'):
         '''
         в каталоге /home/control храним control
@@ -32,8 +35,8 @@ def puppet_init():
 def puppet_update():
     with cd('/home/control'):
         run('git pull origin master')
-          with cd('/home/control/puppet'):
-              run('puppet apply --modulepath=/home/control/puppet/')
+        with cd('/home/control/puppet'):
+            run('puppet apply --modulepath=/home/control/puppet/')
 
 
 
