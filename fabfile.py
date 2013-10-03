@@ -3,7 +3,38 @@ from fabric.api import *
 from time import sleep
 
 env.activate = 'source /home/envs/admin_sancta/bin/activate'
-env.hosts = ['root@78.47.157.221']
+env.roledefs = {
+    'hetzner': ['root@78.47.157.221'],
+    'digitalocean': ['root@162.243.23.252']
+}
+
+git_repo = {
+    'control': 'https://github.com/Ravall/control.git'
+}
+
+
+@roles('digitalocean')
+def puppet_init():
+    '''
+    Установка puppet
+    '''
+    run("apt-get -y install puppet puppetmaster")
+    if not exists('/home/control'):
+        '''
+        в каталоге /home/control храним control
+        '''
+        run('mkdir /home/control')
+        with cd('/home/control'):
+            run('git clone {0} .'.format(git_repo['control']))
+
+
+@roles('digitalocean')
+def puppet_update():
+    with cd('/home/control'):
+        run('git pull origin master')
+          with cd('/home/control/puppet'):
+              run('puppet apply --modulepath=/home/control/puppet/')
+
 
 
 def deploy(tag=None):
@@ -44,6 +75,25 @@ def deploy_engdel(tag=None):
             run("python frgn/manage.py compass")
             run("python frgn/manage.py collectstatic --noinput")
             restart()
+
+
+def deploy_engdel(tag=None):
+    if not tag:
+        print "для выкладки нужен тег"
+    print "выкладываем тег {0}".format(tag)
+    with cd('/home/web/sancta.ru'):
+        with prefix(env.activate):
+            run("git fetch")
+            run("git remote prune origin")
+            run("git checkout {0}".format(tag))
+            run("git submodule update --init")
+            run("pip install -r control/pip.freeze")
+            run("find . -name '*.pyc' -delete")
+            run("python frgn/manage.py syncdb")
+            run("python frgn/manage.py migrate --merge")
+            run("python frgn/manage.py compass")
+            run("python frgn/manage.py collectstatic --noinput")
+
 
 
 def restart():
