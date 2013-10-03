@@ -1,18 +1,36 @@
-class gerrit::params {
-    $gerrit_java = $::operatingsystem ? {
-        /(?i:Debian|Ubuntu|Mint)/ => 'openjdk-6-jdk',
-        default                   => 'java-1.6.0-openjdk',
-    }
-}
-
 class gerrit (
-    $gerrit_java = params_lookup('default-jdk'),
+    $download       = 'https://gerrit.googlecode.com/files',
+    $warfile        = gerrit-2.7-rc1.war,
+    $gerrit_tmp     = '/tmp',
+    $gerrit_home    = '/home/web/gerrit/'
 ) {
-    package {
-        [ "wget",]:
-        ensure => installed;
-        "gerrit_java":
-            ensure => installed,
-            name   => "${gerrit_java}",
+
+    $gerrit_war_file = "${gerrit_tmp}/gerrit-${gerrit_version}.war"
+
+    package {"wget":
+        ensure => installed,
     }
+
+    package { "java"
+        name   => "default-jdk":
+        ensure => installed,
+    }
+
+    exec { "download_gerrit":
+        command => "wget -q '${download}/${warfile}' -O ${gerrit_war_file}",
+        creates => "${gerrit_war_file}",
+        require => [
+            Package["wget"],
+            File[$gerrit_tmp]
+        ],
+    }
+
+    exec { "install_gerrit":
+        command => "java -jar ${gerrit_war_file} init --batch -d ${gerrit_home}"
+        require => [
+            Package["java"],
+            File[$gerrit_home]
+        ],
+    }
+
 }
