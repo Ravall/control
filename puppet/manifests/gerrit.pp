@@ -12,7 +12,7 @@ class gerrit (
     }
 
     package { "java"
-        name   => "default-jdk":
+        name   => "default-jdk",
         ensure => installed,
     }
 
@@ -26,7 +26,7 @@ class gerrit (
     }
 
     exec { "install_gerrit":
-        command => "java -jar ${gerrit_war_file} init --batch -d ${gerrit_home}"
+        command => "java -jar ${gerrit_war_file} init --batch -d ${gerrit_home}",
         require => [
             Package["java"],
             File[$gerrit_home]
