@@ -44,7 +44,7 @@ class gerrit::params {
   }
 
   #
-  $canonical_web_url = "http://$fqdn:8080/"
+  $canonical_web_url = "http://gerrit.sancta.ru:8080/"
   #
   $https_listen_url = "http://*:8080/"
 

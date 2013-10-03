@@ -36,7 +36,7 @@ def puppet_update():
     with cd('/home/control'):
         run('git pull origin master')
         with cd('/home/control/puppet'):
-            run('puppet apply --modulepath=/home/control/puppet/')
+            run('puppet apply *')
 
 
 
