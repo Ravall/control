@@ -1,3 +1,3 @@
 node default {
-    include manifests::gerrit
+    include gerrit
 }
