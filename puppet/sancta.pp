@@ -1,3 +1,3 @@
-node Sancta {
+node default {
     include manifests::gerrit
 }
