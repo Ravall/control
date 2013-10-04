@@ -17,9 +17,6 @@ class gerrit (
         command => "wget -q '${download}/${warfile}' -O ${gerrit_war_file}",
         onlyif  => "test ! -f ${gerrit_war_file}",
         creates => "${gerrit_war_file}",
-        require => [
-            File["${gerrit_tmp}"]
-        ],
     }
 
     #exec {"install_gerrit":
