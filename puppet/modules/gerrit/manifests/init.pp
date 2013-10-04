@@ -7,12 +7,13 @@ class gerrit (
 
     $gerrit_war_file = "${gerrit_tmp}/${warfile}"
 
-    package {"java":
+    package { "java":
         name   => "default-jdk",
         ensure => installed,
     }
 
-    exec {"download_gerrit":
+    exec { "downloadgerrit":
+        path    => "/usr/bin:/usr/sbin:/bin"
         command => "wget -q '${download}/${warfile}' -O ${gerrit_war_file}",
         creates => "${gerrit_war_file}",
         require => [
