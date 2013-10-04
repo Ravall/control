@@ -5,7 +5,7 @@ class gerrit (
     $gerrit_home  = '/home/web/gerrit/'
 ) {
 
-    $gerrit_war_file = "${gerrit_tmp}/${warfile}.war"
+    $gerrit_war_file = "${gerrit_tmp}/${warfile}"
 
     package {"java":
         name   => "default-jdk",
@@ -15,7 +15,7 @@ class gerrit (
     exec {"download_gerrit":
         command => "wget -q '${download}/${warfile}' -O ${gerrit_war_file}",
         creates => "${gerrit_war_file}",
-        onlyif => "! test -f '${gerrit_war_file}'",
+        onlyif => "test ! -f '${gerrit_war_file}'",
         require => [
             Package["wget"],
             File[$gerrit_tmp]
