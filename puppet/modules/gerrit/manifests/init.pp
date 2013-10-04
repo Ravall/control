@@ -18,7 +18,7 @@ class gerrit (
         onlyif  => "test ! -f ${gerrit_war_file}",
         creates => "${gerrit_war_file}",
         require => [
-            File[$gerrit_tmp]
+            File["${gerrit_tmp}"]
         ],
     }
 
