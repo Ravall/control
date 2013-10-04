@@ -15,7 +15,7 @@ class gerrit (
     exec {"download_gerrit":
         command => "wget -q '${download}/${warfile}' -O ${gerrit_war_file}",
         creates => "${gerrit_war_file}",
-        onlyif => "test ! -f '${gerrit_war_file}'",
+        unless  => "test -f '${gerrit_war_file}'",
         require => [
             Package["wget"],
             File[$gerrit_tmp]
