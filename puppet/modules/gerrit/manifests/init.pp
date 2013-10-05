@@ -31,7 +31,7 @@ class gerrit (
 
     file { 'foldergerrit':
         ensure => "directory",
-        onlyif  => "test ! -f ${gerrit_home}",
+        onlyif => "test ! -f ${gerrit_home}",
         path   => "${gerrit_home}",
     }
 
