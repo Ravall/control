@@ -31,7 +31,6 @@ class gerrit (
 
     file { 'foldergerrit':
         ensure => "directory",
-        onlyif => "test ! -f ${gerrit_home}",
         path   => "${gerrit_home}",
     }
 
@@ -54,7 +53,6 @@ class gerrit (
     file {'/etc/init.d/gerrit':
         ensure  => symlink,
         target  => "${gerrit_home}/bin/gerrit.sh",
-        onlyif  => "test ! -f /etc/init.d/gerrit",
         require => Exec['installgerrit']
     }
 
