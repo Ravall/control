@@ -23,7 +23,7 @@ class gerrit (
     exec { "installgerrit":
         path    => "/usr/bin:/usr/sbin:/bin",
         command => "java -jar ${gerrit_war_file} init --batch -d ${gerrit_home}",
-        onlyif  => ["test -f ${gerrit_war_file} && ", "test ! -f ${gerrit_home}"]
+        onlyif  => ["test -f ${gerrit_war_file} && ", "test ! -f ${gerrit_home}"],
         require => [
             Package["java"],
         ],
@@ -31,7 +31,7 @@ class gerrit (
 
     file { 'foldergerrit':
         ensure => "directory",
-        onlyif  => "test ! -f ${gerrit_home}"
+        onlyif  => "test ! -f ${gerrit_home}",
         path   => "${gerrit_home}",
     }
 
@@ -54,7 +54,7 @@ class gerrit (
     file {'/etc/init.d/gerrit':
         ensure  => symlink,
         target  => "${gerrit_home}/bin/gerrit.sh",
-        onlyif  => "test ! -f /etc/init.d/gerrit"
+        onlyif  => "test ! -f /etc/init.d/gerrit",
         require => Exec['installgerrit']
     }
 
