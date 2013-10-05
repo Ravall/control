@@ -22,9 +22,9 @@ class gerrit (
     exec { "installgerrit":
         path    => "/usr/bin:/usr/sbin:/bin",
         command => "java -jar ${gerrit_war_file} init --batch -d ${gerrit_home}",
+        onlyif  => "test -f ${gerrit_war_file}",
         require => [
             Package["java"],
-            File['${gerrit_war_file}']
         ],
     }
 
