@@ -19,11 +19,25 @@ class gerrit (
         creates => "${gerrit_war_file}",
     }
 
-    #exec {"install_gerrit":
-    #    command => "java -jar ${gerrit_war_file} init --batch -d ${gerrit_home}",
-    #    require => [
-    #        Package["java"],
-    #        File[$gerrit_home]
-    #    ],
-    #}
+    exec { "installgerrit":
+        path    => "/usr/bin:/usr/sbin:/bin",
+        command => "java -jar ${gerrit_war_file} init --batch -d ${gerrit_home}",
+        require => [
+            Package["java"],
+            File[$gerrit_war_file]
+        ],
+    }
+
+    file { 'foldergerrit':
+        ensure => "directory",
+        path   => "${gerrit_home}",
+    }
+
+    exec { "configgerrit":
+        path    => "/usr/bin:/usr/sbin:/bin",
+        command => "git config -f ${gerrit_home}etc/gerrit.config gerrit.canonicalWebUrl"
+        require => [
+            File['foldergerrit']
+        ],
+    }
 }
