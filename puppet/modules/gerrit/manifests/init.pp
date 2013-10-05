@@ -3,6 +3,7 @@ class gerrit (
     $warfile      = 'gerrit-2.7-rc1.war',
     $gerrit_tmp   = '/tmp',
     $gerrit_home  = '/home/web/gerrit/'
+    $gerrit_url   = 'gerrit.sancta.ru'
 ) {
 
     $gerrit_war_file = "${gerrit_tmp}/${warfile}"
@@ -22,7 +23,7 @@ class gerrit (
     exec { "installgerrit":
         path    => "/usr/bin:/usr/sbin:/bin",
         command => "java -jar ${gerrit_war_file} init --batch -d ${gerrit_home}",
-        onlyif  => "test -f ${gerrit_war_file}",
+        onlyif  => ["test -f ${gerrit_war_file} && ", "test ! -f ${gerrit_home}"]
         require => [
             Package["java"],
         ],
@@ -30,14 +31,38 @@ class gerrit (
 
     file { 'foldergerrit':
         ensure => "directory",
+        onlyif  => "test ! -f ${gerrit_home}"
         path   => "${gerrit_home}",
     }
 
     exec { "configgerrit":
         path    => "/usr/bin:/usr/sbin:/bin",
-        command => "git config -f ${gerrit_home}etc/gerrit.config gerrit.canonicalWebUrl",
+        command => "git config -f ${gerrit_home}etc/gerrit.config gerrit.canonicalWebUrl http://${gerrit_url}",
         require => [
             File['foldergerrit']
         ],
     }
+
+    exec { "configgerrit":
+        path    => "/usr/bin:/usr/sbin:/bin",
+        command => "git config -f ${gerrit_home}etc/gerrit.config httpd.listenUrl http://${gerrit_url}",
+        require => [
+            File['foldergerrit']
+        ],
+    }
+
+    file {'/etc/init.d/gerrit':
+        ensure  => symlink,
+        target  => "${gerrit_home}/bin/gerrit.sh",
+        onlyif  => "test ! -f /etc/init.d/gerrit"
+        require => Exec['installgerrit']
+    }
+
+    service { 'gerrit':
+        ensure    => running,
+        hasstatus => false,
+        pattern   => 'GerritCodeReview',
+        require   => File['/etc/init.d/gerrit']
+    }
+
 }
