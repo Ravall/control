@@ -35,7 +35,7 @@ class gerrit (
         path   => "${gerrit_home}",
     }
 
-    exec { "configgerrit":
+    exec { "configgerrit_weburl":
         path    => "/usr/bin:/usr/sbin:/bin",
         command => "git config -f ${gerrit_home}etc/gerrit.config gerrit.canonicalWebUrl http://${gerrit_url}",
         require => [
@@ -43,7 +43,7 @@ class gerrit (
         ],
     }
 
-    exec { "configgerrit":
+    exec { "configgerrit_listenUrl":
         path    => "/usr/bin:/usr/sbin:/bin",
         command => "git config -f ${gerrit_home}etc/gerrit.config httpd.listenUrl http://${gerrit_url}",
         require => [
