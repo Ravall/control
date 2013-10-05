@@ -35,7 +35,7 @@ class gerrit (
 
     exec { "configgerrit":
         path    => "/usr/bin:/usr/sbin:/bin",
-        command => "git config -f ${gerrit_home}etc/gerrit.config gerrit.canonicalWebUrl"
+        command => "git config -f ${gerrit_home}etc/gerrit.config gerrit.canonicalWebUrl",
         require => [
             File['foldergerrit']
         ],
