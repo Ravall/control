@@ -24,7 +24,7 @@ class gerrit (
         command => "java -jar ${gerrit_war_file} init --batch -d ${gerrit_home}",
         require => [
             Package["java"],
-            File[$gerrit_war_file]
+            File["${gerrit_war_file}"]
         ],
     }
 
