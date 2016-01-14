@@ -5,9 +5,9 @@ import os
 import platform
 
 # PATH - путь к manage.py
-PATH = os.path.abspath(os.path.dirname(__file__) + '/../../')
+PATH = os.path.abspath(os.path.dirname(__file__) + '/../')
 
-DEBUG = platform.node() != 'sancta'
+DEBUG = platform.node().lower() != 'sancta'
 TEMPLATE_DEBUG = DEBUG
 
 TIME_ZONE = 'Europe/Moscow'
@@ -55,7 +55,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_DIRS = (
@@ -94,7 +93,9 @@ INSTALLED_APPS = (
     #favion
     'favicon',
     #sitemap
-    'django.contrib.sitemaps'
+    'django.contrib.sitemaps',
+    # себя :)
+    'support',
 )
 
 COMPASS_INPUT = os.path.abspath(os.path.join(MEDIA_ROOT, 'scss'))

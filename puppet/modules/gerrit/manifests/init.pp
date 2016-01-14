@@ -3,7 +3,8 @@ class gerrit (
     $warfile      = 'gerrit-2.7-rc1.war',
     $gerrit_tmp   = '/tmp',
     $gerrit_home  = '/home/web/gerrit/',
-    $gerrit_url   = 'gerrit.sancta.ru'
+    $gerrit_url   = 'gerrit.sancta.ru',
+    $http_port    = '8081'
 ) {
 
     $gerrit_war_file = "${gerrit_tmp}/${warfile}"
@@ -44,7 +45,7 @@ class gerrit (
 
     exec { "configgerrit_listenUrl":
         path    => "/usr/bin:/usr/sbin:/bin",
-        command => "git config -f ${gerrit_home}etc/gerrit.config httpd.listenUrl http://${gerrit_url}",
+        command => "git config -f ${gerrit_home}etc/gerrit.config httpd.listenUrl proxy-http://*:${http_port}",
         require => [
             File['foldergerrit']
         ],
@@ -56,6 +57,10 @@ class gerrit (
         require => Exec['installgerrit']
     }
 
+    file {'/etc/default/gerritcodereview':
+        content => "GERRIT_SITE=${gerrit_home}",
+    }
+
     service { 'gerrit':
         ensure    => running,
         hasstatus => false,
@@ -63,4 +68,7 @@ class gerrit (
         require   => File['/etc/init.d/gerrit']
     }
 
+    nginx::resource::vhost { "${gerrit_url}":
+        proxy    => "http://localhost:${http_port}/"
+    }
 }
