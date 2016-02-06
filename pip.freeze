@@ -52,3 +52,4 @@ django-constance==0.6
 django-constance-updated==0.6.1
 ephem==3.7.6.0
 django-mobile==0.6.0
+django-geoip==0.5.2
