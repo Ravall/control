@@ -48,7 +48,7 @@ zope.sqlalchemy==0.7.1
 django-url-breadcrumbs==0.3.3
 djangoajax==2.3.3	
 django-templated-email==0.4.9
-django-constance==0.6
+django-constance==1.0
 django-constance-updated==0.6.1
 ephem==3.7.6.0
 django-mobile==0.6.0
